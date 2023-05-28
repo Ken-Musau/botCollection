@@ -1,7 +1,7 @@
 import React from "react";
 import BotCard from "./BotCard";
 
-function YourBotArmy({ myBotArmy, addBotToMyArmy, setMyBotArmy }) {
+function YourBotArmy({ myBotArmy, enlistBotToMyArmy, setMyBotArmy, deleteBot }) {
   //your bot army code here...
 
   
@@ -19,8 +19,9 @@ function YourBotArmy({ myBotArmy, addBotToMyArmy, setMyBotArmy }) {
               myBotArmy={myBotArmy}
               key={bot.id}
               bot={bot}
-              addBotToMyArmy={addBotToMyArmy}
+              enlistBotToMyArmy={enlistBotToMyArmy}
               dischargeBotFromMyArmy={dischargeBotFromMyArmyHanlder}
+              deleteBot={deleteBot}
             />
           ))}
         </div>

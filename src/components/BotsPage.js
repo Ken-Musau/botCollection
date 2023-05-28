@@ -8,32 +8,53 @@ function BotsPage() {
   const [myBotArmy, setMyBotArmy] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8002/bots")
-      .then((res) => res.json())
-      .then((data) => setBots(data));
+    fetchBots();
   }, []);
 
-  function addBotToMyArmyHandler(bot) {
-    const isBotAlreadyInArmy = myBotArmy.some((myBot) => myBot.id === bot.id);
+  function fetchBots() {
+    fetch("http://localhost:8002/bots")
+      .then((res) => res.json())
+      .then((data) => setBots(data))
+      .catch((error) => console.log("Error fetching bots:", error));
+  }
 
-    if (!isBotAlreadyInArmy) {
-      const myBotArmyList = myBotArmy.filter((myBot) => myBot.id !== bot.id);
-      setMyBotArmy([...myBotArmyList, bot]);
+  function enlistBotToMyArmyHandler(bot) {
+    if (!myBotArmy.some((myBot) => myBot.id === bot.id)) {
+      setMyBotArmy([...myBotArmy, bot]);
     }
   }
   // console.log(myBotArmy);
+
+  function deleteBotHandler(bot) {
+    fetch(`http://localhost:8002/bots/${bot.id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then(() => {
+        const updatedBots = bots.filter((b) => b.id !== bot.id);
+        setBots(updatedBots);
+
+        const updatedBotArmy = myBotArmy.filter((myBot) => myBot.id !== bot.id);
+        setMyBotArmy(updatedBotArmy);
+      })
+      .catch((error) => {
+        console.log("Error deleting bot:", error);
+      });
+  }
 
   return (
     <div>
       <YourBotArmy
         myBotArmy={myBotArmy}
-        addBotToMyArmy={addBotToMyArmyHandler}
+        enlistBotToMyArmy={enlistBotToMyArmyHandler}
         setMyBotArmy={setMyBotArmy}
+        deleteBot={deleteBotHandler}
       />
       <BotCollection
         bots={bots}
-        addBotToMyArmy={addBotToMyArmyHandler}
+        enlistBotToMyArmy={enlistBotToMyArmyHandler}
         myBotArmy={myBotArmy}
+        deleteBot={deleteBotHandler}
       />
     </div>
   );

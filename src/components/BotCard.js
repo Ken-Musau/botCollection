@@ -9,14 +9,14 @@ const botTypeClasses = {
   Captain: "icon star",
 };
 
-function BotCard({ bot, addBotToMyArmy, dischargeBotFromMyArmy, myBotArmy }) {
+function BotCard({ bot, myBotArmy, enlistBotToMyArmy, dischargeBotFromMyArmy, deleteBot }) {
   // console.log(myBotArmy.includes(bot));
 
   function handleClick() {
     if (myBotArmy.includes(bot)) {
       dischargeBotFromMyArmy(bot);
     } else if (!myBotArmy.includes(bot)) {
-      addBotToMyArmy(bot);
+      enlistBotToMyArmy(bot);
     }
   }
 
@@ -53,7 +53,7 @@ function BotCard({ bot, addBotToMyArmy, dischargeBotFromMyArmy, myBotArmy }) {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                // onClick={() => removeBotFromMyArmy(bot)}
+                onClick={() => deleteBot(bot)}
               >
                 x
               </button>
