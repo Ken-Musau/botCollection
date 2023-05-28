@@ -7,10 +7,12 @@ function BotsPage() {
   const [bots, setBots] = useState([]);
   const [myBotArmy, setMyBotArmy] = useState([]);
 
+
   useEffect(() => {
     fetchBots();
   }, []);
-
+  
+  // fetch bets from api
   function fetchBots() {
     fetch("http://localhost:8002/bots")
       .then((res) => res.json())
@@ -18,13 +20,15 @@ function BotsPage() {
       .catch((error) => console.log("Error fetching bots:", error));
   }
 
+  // Add clicked bots into myBotArmy variable
   function enlistBotToMyArmyHandler(bot) {
     if (!myBotArmy.some((myBot) => myBot.id === bot.id)) {
       setMyBotArmy([...myBotArmy, bot]);
     }
   }
-  // console.log(myBotArmy);
+  
 
+  // Delete bot when x button is clicked in YourBotArmy Component
   function deleteBotHandler(bot) {
     fetch(`http://localhost:8002/bots/${bot.id}`, {
       method: "DELETE",
