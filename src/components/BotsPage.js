@@ -13,14 +13,28 @@ function BotsPage() {
       .then((data) => setBots(data));
   }, []);
 
-  function addBotToMyArmyHandler(){
-    console.log('Added to my army');
+  function addBotToMyArmyHandler(bot) {
+    const isBotAlreadyInArmy = myBotArmy.some((myBot) => myBot.id === bot.id);
+
+    if (!isBotAlreadyInArmy) {
+      const myBotArmyList = myBotArmy.filter((myBot) => myBot.id !== bot.id);
+      setMyBotArmy([...myBotArmyList, bot]);
+    }
   }
+  // console.log(myBotArmy);
 
   return (
     <div>
-      <YourBotArmy />
-      <BotCollection bots={bots} addBotToMyArmy={addBotToMyArmyHandler}/>
+      <YourBotArmy
+        myBotArmy={myBotArmy}
+        addBotToMyArmy={addBotToMyArmyHandler}
+        setMyBotArmy={setMyBotArmy}
+      />
+      <BotCollection
+        bots={bots}
+        addBotToMyArmy={addBotToMyArmyHandler}
+        myBotArmy={myBotArmy}
+      />
     </div>
   );
 }
